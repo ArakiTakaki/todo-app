@@ -1,9 +1,12 @@
 package main
 
-import "github.com/ArakiTakaki/todo-lesson/server-go/router"
+import (
+	"github.com/ArakiTakaki/todo-lesson/server-go/models"
+	"github.com/ArakiTakaki/todo-lesson/server-go/router"
+)
 
 func main() {
 	r := router.GetRouter()
-	//models.Init()
+	models.Init()
 	r.Run(":8000")
 }

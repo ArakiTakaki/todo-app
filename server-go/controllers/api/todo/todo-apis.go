@@ -21,5 +21,12 @@ func getSheet(c *gin.Context) {
 }
 
 func getTodo(c *gin.Context) {
+	id := c.Query("sheet_id")
+	fmt.Println(id)
 	c.JSON(http.StatusOK, nil)
 }
+
+/*
+firstname := c.DefaultQuery("firstname", "Guest")
+lastname := c.Query("lastname") // shortcut for c.Request.URL.Query().Get("lastname")
+*/

@@ -16,17 +16,6 @@ func NewDBConn() *gorm.DB {
 	return db
 }
 
-// GetAll 全部取得
-func GetAll() []Sheet {
-	var sheets = GetAllSheets()
-
-	for _, v := range sheets {
-		v.GetAllTodos()
-	}
-
-	return sheets
-}
-
 // GetAllSheets ALL
 func GetAllSheets() []Sheet {
 	db := NewDBConn()
@@ -40,13 +29,12 @@ func GetAllSheets() []Sheet {
 }
 
 // GetAllTodos ALL
-func (s Sheet) GetAllTodos() []Todo {
+func GetAllTodos(sheetID int) []Todo {
 	db := NewDBConn()
 	defer db.Close()
 
 	var todos []Todo
-	db.Where("sheet_id = ?", s.ID).Find(&todos)
-	s.Todos = append(s.Todos, todos...)
+	db.Where("sheet_id = ?", sheetID).Find(&todos)
 	return todos
 }
 
@@ -59,41 +47,11 @@ func Init() {
 	// Migrate
 	db.AutoMigrate(&Sheet{})
 	db.AutoMigrate(&Todo{})
-	/*
 
-		// Create
-		var todos = new([2]Todo)
-		todos[0].ID = 1
-		todos[0].Name = "頑張る？"
-		todos[0].SheetID = 1
-		todos[1].ID = 2
-		todos[1].Name = "頑張れ・・・？"
-		todos[1].SheetID = 1
+	var sheet Sheet
 
-		// 構造体を作成し
-		var sts Sheet
+	db.Create(&sheet)
 
-		sts.ID = 1
-		sts.Title = "テスト"
-
-				// 中に入れる処理を書き
-				db.First(&sts, 1)
-
-				//Appendの使い方がOMOSIROI
-
-			// 出力してみる
-			db.Save(sts)
-			db.Save(todos[0])
-			db.Save(todos[1])
-
-			var test Sheet
-			var tds []Todo
-
-			db.First(&test)
-			db.Where("sheet_id = ?", test.ID).Find(&tds)
-			test.Todos = append(test.Todos, tds...)
-			//スライスしてやると追加できる（可変する場合はスライスを絶対にする）
-			fmt.Println(test)
-	*/
+	//スライスしてやると追加できる（可変する場合はスライスを絶対にする）
 
 }
