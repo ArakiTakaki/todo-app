@@ -8,9 +8,11 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// AppSet アプリケーションのルーティング
 func AppSet(r *gin.RouterGroup) {
 	r.GET("/sheets", getSheet)
 	r.GET("/todos", getTodo)
+	r.POST("/todo/create_todo", setTodo)
 }
 
 func getSheet(c *gin.Context) {
@@ -22,8 +24,14 @@ func getSheet(c *gin.Context) {
 
 func getTodo(c *gin.Context) {
 	id := c.Query("sheet_id")
-	fmt.Println(id)
-	c.JSON(http.StatusOK, nil)
+	todo := models.GetAllTodos(id)
+	c.JSON(http.StatusOK, todo)
+}
+
+func setTodo(c *gin.Context) {
+	content := c.PostForm(data)
+	sheet_id := c.PostForm(sheet)
+
 }
 
 /*

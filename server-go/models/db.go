@@ -1,6 +1,9 @@
 package models
 
 import (
+	"fmt"
+	"strconv"
+
 	"github.com/jinzhu/gorm"
 	//SQLite3 ドライバ
 	_ "github.com/mattn/go-sqlite3"
@@ -29,13 +32,30 @@ func GetAllSheets() []Sheet {
 }
 
 // GetAllTodos ALL
-func GetAllTodos(sheetID int) []Todo {
+func GetAllTodos(sheetID string) []Todo {
 	db := NewDBConn()
 	defer db.Close()
 
 	var todos []Todo
 	db.Where("sheet_id = ?", sheetID).Find(&todos)
+	fmt.Println(todos)
 	return todos
+}
+
+// SetTodo セットする
+func SetTodo(sheetID string, content string) Todo {
+	db := NewDBConn()
+	defer db.Close()
+
+	var todo Todo
+	work, _ := strconv.Atoi(sheetID)
+	i := uint(work)
+
+	todo.SheetID = i
+	todo.Name = content
+
+	db.Save(&todo)
+	return (todo)
 }
 
 //Init 初期化
@@ -48,9 +68,11 @@ func Init() {
 	db.AutoMigrate(&Sheet{})
 	db.AutoMigrate(&Todo{})
 
-	var sheet Sheet
-
-	db.Create(&sheet)
+	/*
+		var sheet Sheet
+		sheet.Title = "テスト"
+		db.Create(&sheet)
+	*/
 
 	//スライスしてやると追加できる（可変する場合はスライスを絶対にする）
 

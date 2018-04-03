@@ -1,29 +1,38 @@
 import React from 'react'
 import View from './todo-view.jsx'
+import Create from './todo-create.jsx'
 
 // スタブ 
 //import todo_list from './dammy/test-todos.json'
 // スタブ
 
 // 情報群の取得処理
+// props
+//    props.match.params["id"] sheet_id
 export default class TodoController extends React.Component{
 
   constructor(props){
     super(props)
     this.state = {
-      data: []
+      data: [],
+      sheet_id: this.props.match.params["id"]
     }
     this.serchTodos = this.serchTodos.bind(this)
   }
 
   componentWillReceiveProps(){
-    const sheet_num = this.props.match.params["id"]
-    const URI = CREATE_URI() + GET_ALL(sheet_num)
+    const URI = CREATE_URI() + GET_ALL(this.props.state.sheet_id)
     this.serchTodos(URI)
   }
 
   render(){
-    return <View items={this.state.data}/>
+    const sheet_id = this.props.state.sheet_id
+    return (
+      <div>
+        <Create sheet_id={sheet_id}/>
+        <View items={this.state.data}/>
+      </div>
+    )
   }
 
   serchTodos(uri){
