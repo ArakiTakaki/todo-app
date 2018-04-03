@@ -12,31 +12,23 @@ export default class SheetsController extends React.Component {
     this.state = {
       data: []
     }
-    this.serchSheets = this.serchSheets.bind(this)
   }
   render(){
-   
-    const URI = CREATE_URI()
-    // 結合処理様
-    this.serchSheets(URI)
-
     return <View items={this.state.data}/>
   }
-
-  serchSheets(uri){
+  // 初期化ajaxはここに書くらしい
+  componentDidMount(){
     fetch(
-      uri,
+      CREATE_URI(),
       { method: 'GET' }
     ).then( res=> {
       return res.json()
     }).then( d =>{
       this.setState({data: d})
     }).catch( e => {
-      console.log("URI : " + uri)
       console.log("todo_listのajax処理に失敗しました")
       console.log(e)
     })
-
   }
 }
 

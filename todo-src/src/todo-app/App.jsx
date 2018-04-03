@@ -2,7 +2,6 @@ import React from 'react';
 import {Route} from 'react-router-dom'
 import Sheets from './sheets-controller.jsx'
 import Todo from './todo-controller.jsx'
-import link from './dammy/test-sheets.json'
 
 
 export default class App extends React.Component{
@@ -13,7 +12,7 @@ export default class App extends React.Component{
     return (
       <div>
         <nav>
-          <Sheets items={link} />
+          <Sheets />
         </nav>
         <section>
           <Route exact path="/todo/" component={Home} />

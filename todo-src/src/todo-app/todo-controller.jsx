@@ -2,7 +2,7 @@ import React from 'react'
 import View from './todo-view.jsx'
 
 // スタブ 
-import todo_list from './dammy/test-todos.json'
+//import todo_list from './dammy/test-todos.json'
 // スタブ
 
 // 情報群の取得処理
@@ -16,14 +16,14 @@ export default class TodoController extends React.Component{
     this.serchTodos = this.serchTodos.bind(this)
   }
 
-  render(){
+  componentWillReceiveProps(){
     const sheet_num = this.props.match.params["id"]
     const URI = CREATE_URI() + GET_ALL(sheet_num)
-    
-    // 結合処理様
-    // this.serchTodos(URI)
+    this.serchTodos(URI)
+  }
 
-    return <View items={todo_list}/>
+  render(){
+    return <View items={this.state.data}/>
   }
 
   serchTodos(uri){
