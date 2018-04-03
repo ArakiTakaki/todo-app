@@ -1,6 +1,7 @@
 package router
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -14,6 +15,7 @@ func GetRouter() *gin.Engine {
 	setRouting(r)
 	r.LoadHTMLGlob("views/*")
 	r.NoRoute(func(c *gin.Context) {
+		fmt.Println("indexに飛ばします")
 		c.HTML(http.StatusOK, "index.html", nil)
 	})
 

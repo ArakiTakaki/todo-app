@@ -8,7 +8,7 @@ export default class Sheets extends React.Component {
     for (var value of data){      
       list.push(
         <li key={value.id}>
-          <Link to={"/todo/"+value.id}>
+          <Link to={"/"+value.id}>
             {value.sheet_title}<span>{value.update_at}</span>
           </Link>
         </li>

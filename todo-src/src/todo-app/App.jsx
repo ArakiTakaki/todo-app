@@ -15,8 +15,8 @@ export default class App extends React.Component{
           <Sheets />
         </nav>
         <section>
-          <Route exact path="/todo/" component={Home} />
-          <Route path="/todo/:id" component={Todo} />
+          <Route exact path="/" component={Home} />
+          <Route path="/:id" component={Todo} />
         </section>
       </div>
     )

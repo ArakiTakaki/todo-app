@@ -21,12 +21,12 @@ export default class TodoController extends React.Component{
   }
 
   componentWillReceiveProps(){
-    const URI = CREATE_URI() + GET_ALL(this.props.state.sheet_id)
+    const URI = CREATE_URI() + GET_ALL(this.state.sheet_id)
     this.serchTodos(URI)
   }
 
   render(){
-    const sheet_id = this.props.state.sheet_id
+   const sheet_id = this.state.sheet_id
     return (
       <div>
         <Create sheet_id={sheet_id}/>

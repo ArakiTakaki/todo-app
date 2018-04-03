@@ -2,7 +2,6 @@ package models
 
 import (
 	"fmt"
-	"strconv"
 
 	"github.com/jinzhu/gorm"
 	//SQLite3 ドライバ
@@ -43,19 +42,17 @@ func GetAllTodos(sheetID string) []Todo {
 }
 
 // SetTodo セットする
-func SetTodo(sheetID string, content string) Todo {
+func SetTodo(sheetID int, content string) Todo {
 	db := NewDBConn()
 	defer db.Close()
 
 	var todo Todo
-	work, _ := strconv.Atoi(sheetID)
-	i := uint(work)
-
+	i := uint(sheetID)
 	todo.SheetID = i
 	todo.Name = content
 
-	db.Save(&todo)
-	return (todo)
+	db.Save(todo)
+	return todo
 }
 
 //Init 初期化

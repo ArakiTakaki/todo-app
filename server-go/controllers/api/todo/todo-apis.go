@@ -3,6 +3,7 @@ package todo
 import (
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/ArakiTakaki/todo-lesson/server-go/models"
 	"github.com/gin-gonic/gin"
@@ -10,9 +11,9 @@ import (
 
 // AppSet アプリケーションのルーティング
 func AppSet(r *gin.RouterGroup) {
+	r.POST("/create/todo", createTodo)
 	r.GET("/sheets", getSheet)
 	r.GET("/todos", getTodo)
-	r.POST("/todo/create_todo", setTodo)
 }
 
 func getSheet(c *gin.Context) {
@@ -27,10 +28,12 @@ func getTodo(c *gin.Context) {
 	todo := models.GetAllTodos(id)
 	c.JSON(http.StatusOK, todo)
 }
-
-func setTodo(c *gin.Context) {
-	content := c.PostForm(data)
-	sheet_id := c.PostForm(sheet)
+func createTodo(c *gin.Context) {
+	content := c.PostForm("data")
+	sheet := c.PostForm("sheet")
+	sheetID, _ := strconv.Atoi(sheet)
+	todo := models.SetTodo(sheetID, content)
+	c.JSON(http.StatusOK, todo)
 
 }
 

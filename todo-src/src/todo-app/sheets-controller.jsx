@@ -18,6 +18,10 @@ export default class SheetsController extends React.Component {
   }
   // 初期化ajaxはここに書くらしい
   componentDidMount(){
+
+    //DEBUG
+    //this.setState({data: list})
+    
     fetch(
       CREATE_URI(),
       { method: 'GET' }
