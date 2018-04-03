@@ -10,31 +10,35 @@ import (
 )
 
 // AppSet アプリケーションのルーティング
-func AppSet(r *gin.RouterGroup) {
-	r.POST("/create/todo", createTodo)
-	r.GET("/sheets", getSheet)
-	r.GET("/todos", getTodo)
-}
 
-func getSheet(c *gin.Context) {
+func GetSheet(c *gin.Context) {
 	sheets := models.GetAllSheets()
 	fmt.Println("GET ALL SHEETS")
 	fmt.Println(sheets)
 	c.JSON(http.StatusOK, sheets)
 }
 
-func getTodo(c *gin.Context) {
+func GetTodo(c *gin.Context) {
 	id := c.Query("sheet_id")
 	todo := models.GetAllTodos(id)
 	c.JSON(http.StatusOK, todo)
 }
-func createTodo(c *gin.Context) {
-	content := c.PostForm("data")
-	sheet := c.PostForm("sheet")
-	sheetID, _ := strconv.Atoi(sheet)
-	todo := models.SetTodo(sheetID, content)
-	c.JSON(http.StatusOK, todo)
 
+func CreateTodo(c *gin.Context) {
+
+	var todo models.Todo
+
+	content := c.PostForm("data")
+	sheet := c.Param("sheet")
+	sheetID, err := strconv.Atoi(sheet)
+
+	if err == nil {
+		todo = models.SetTodo(sheetID, content)
+	} else {
+		fmt.Println("todo-api create-todo :不正な値が検出されました" + sheet)
+	}
+
+	c.JSON(http.StatusOK, todo)
 }
 
 /*

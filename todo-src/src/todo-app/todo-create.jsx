@@ -46,9 +46,8 @@ export default class TodoCreate extends React.Component{
   }
 
   textParam(e){
-    const url = '/api/create/todo'
+    const url = '/api/todo/'+  this.props.sheet_id + '/create'
     const post = {
-      sheet : this.props.sheet_id,
       data  : this.refs.todo.value
     }
     this.post(url,post)

@@ -50,8 +50,16 @@ func SetTodo(sheetID int, content string) Todo {
 	i := uint(sheetID)
 	todo.SheetID = i
 	todo.Name = content
+	todo.Check = false
 
-	db.Save(todo)
+	swt := db.NewRecord(&todo)
+
+	if swt {
+		db.Create(&todo)
+	} else {
+		fmt.Println("todo 追加できませんでした")
+	}
+
 	return todo
 }
 
