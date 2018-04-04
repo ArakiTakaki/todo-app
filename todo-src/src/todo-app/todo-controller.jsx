@@ -14,19 +14,18 @@ export default class TodoController extends React.Component{
   constructor(props){
     super(props)
     this.state = {
-      data: [],
-      sheet_id: this.props.match.params["id"]
+      data: []
     }
     this.serchTodos = this.serchTodos.bind(this)
   }
 
   componentWillReceiveProps(){
-    const URI = CREATE_URI() + GET_ALL(this.state.sheet_id)
+    const URI = CREATE_URI() + GET_ALL(this.props.match.params["id"])
     this.serchTodos(URI)
   }
 
   render(){
-   const sheet_id = this.state.sheet_id
+   const sheet_id = this.props.match.params["id"]
     return (
       <div>
         <Create sheet_id={sheet_id}/>

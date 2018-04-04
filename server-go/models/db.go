@@ -2,6 +2,7 @@ package models
 
 import (
 	"fmt"
+	"strconv"
 
 	"github.com/jinzhu/gorm"
 	//SQLite3 ドライバ
@@ -24,10 +25,21 @@ func GetAllSheets() []Sheet {
 	defer db.Close()
 
 	var sheets []Sheet
-
 	db.Where("delete_at IS NULL").Find(&sheets)
 
 	return sheets
+}
+
+func CreateSheet(title string) Sheet {
+	db := NewDBConn()
+	defer db.Close()
+
+	var sheet Sheet
+	sheet.Title = title
+
+	db.Create(&sheet)
+
+	return sheet
 }
 
 // GetAllTodos ALL
@@ -37,28 +49,28 @@ func GetAllTodos(sheetID string) []Todo {
 
 	var todos []Todo
 	db.Where("sheet_id = ?", sheetID).Find(&todos)
-	fmt.Println(todos)
+
 	return todos
 }
 
 // SetTodo セットする
-func SetTodo(sheetID int, content string) Todo {
+func SetTodo(strSheetID string, content string) Todo {
+	intSheetID, err := strconv.Atoi(strSheetID)
+	uintSheetID := uint(intSheetID)
+	var todo Todo
+	if err != nil {
+		fmt.Println("不正な値が検出されました setTodo")
+		return todo
+	}
+
 	db := NewDBConn()
 	defer db.Close()
 
-	var todo Todo
-	i := uint(sheetID)
-	todo.SheetID = i
+	todo.SheetID = uintSheetID
 	todo.Name = content
 	todo.Check = false
 
-	swt := db.NewRecord(&todo)
-
-	if swt {
-		db.Create(&todo)
-	} else {
-		fmt.Println("todo 追加できませんでした")
-	}
+	db.Create(&todo)
 
 	return todo
 }
@@ -72,13 +84,5 @@ func Init() {
 	// Migrate
 	db.AutoMigrate(&Sheet{})
 	db.AutoMigrate(&Todo{})
-
-	/*
-		var sheet Sheet
-		sheet.Title = "テスト"
-		db.Create(&sheet)
-	*/
-
-	//スライスしてやると追加できる（可変する場合はスライスを絶対にする）
 
 }

@@ -14,11 +14,11 @@ var static = map[string]string{
 
 // setRouting
 func setRouting(r *gin.Engine) {
-	AppSet(r.Group("/api/todo"))
+	todoSet(r.Group("/api/todo"))
 }
-func AppSet(api *gin.RouterGroup) {
-
+func todoSet(api *gin.RouterGroup) {
 	api.GET("/sheets", todo.GetSheet)
 	api.GET("/todos", todo.GetTodo)
 	api.POST("/:sheet/create", todo.CreateTodo)
+	api.POST("/create/newsheet", todo.CreateSheet)
 }
