@@ -17,11 +17,7 @@ export default class SheetsController extends React.Component {
   render(){
     return <View items={this.state.data}/>
   }
-  // 初期化ajaxはここに書くらしい
   componentDidMount(){
-
-    //DEBUG
-    //this.setState({data: list})
     let json = GET("/api/todo/sheets")
     json.then( d => this.setState({data: d}) )
  }

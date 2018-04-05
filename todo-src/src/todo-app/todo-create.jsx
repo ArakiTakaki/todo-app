@@ -22,21 +22,20 @@ export default class TodoCreate extends React.Component{
   render(){ 
     return(
       <section>
-        <button onClick={this.request}>[+]</button>
+        <button onClick={this.reqest}>[+]</button>
         <input type="text" name="todo_content" ref="todo" />
       </section>
       )
   }
 
-  reqest(){
+  reqest(e){
     const url = '/api/todo/'+  this.props.sheet_id + '/create'
     const post = {
-      data  : this.refs.todo.value
+      "data"  : this.refs.todo.value
     }
-    POST(url,post)
-    POST.then(data => console.log(data))
-    
-    const state  = !this.state.review
-    this.setState({review: state})
+    res = POST(url,post)
+    res.then(data => console.log("POSTしたよ" + data))
+    // let state  = !this.state.review
+    // this.setState({review: state})
   }
 }
