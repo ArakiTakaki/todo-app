@@ -22,7 +22,7 @@ func CreateSheet(c *gin.Context) {
 	c.JSON(http.StatusOK, sheet)
 }
 
-// GetTodo /:sheet_id/
+// GetTodo 
 func GetTodo(c *gin.Context) {
 	id := c.Query("sheet_id")
 	todo := models.GetAllTodos(id)

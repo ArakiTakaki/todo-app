@@ -20,5 +20,4 @@ func todoSet(api *gin.RouterGroup) {
 	api.GET("/sheets", todo.GetSheet)
 	api.GET("/todos", todo.GetTodo)
 	api.POST("/:sheet/create", todo.CreateTodo)
-	api.POST("/create/newsheet", todo.CreateSheet)
 }

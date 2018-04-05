@@ -1,5 +1,6 @@
 import React from 'react'
 import View from './sheets-view.jsx'
+import {GET} from './util/ajax'
 
 // スタブ
 //import list from './dammy/test-sheets.json'
@@ -21,21 +22,7 @@ export default class SheetsController extends React.Component {
 
     //DEBUG
     //this.setState({data: list})
-    
-    fetch(
-      CREATE_URI(),
-      { method: 'GET' }
-    ).then( res=> {
-      return res.json()
-    }).then( d =>{
-      this.setState({data: d})
-    }).catch( e => {
-      console.log("todo_listのajax処理に失敗しました")
-      console.log(e)
-    })
-  }
-}
-
-const CREATE_URI = () =>{
-  return "/api/todo/sheets"
+    let json = GET("/api/todo/sheets")
+    json.then( d => this.setState({data: d}) )
+ }
 }

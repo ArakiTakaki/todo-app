@@ -1,6 +1,7 @@
 import React from 'react'
 import View from './todo-view.jsx'
 import Create from './todo-create.jsx'
+import {GET} from './util/ajax'
 
 // スタブ 
 //import todo_list from './dammy/test-todos.json'
@@ -16,12 +17,12 @@ export default class TodoController extends React.Component{
     this.state = {
       data: []
     }
-    this.serchTodos = this.serchTodos.bind(this)
   }
 
   componentWillReceiveProps(){
     const URI = CREATE_URI() + GET_ALL(this.props.match.params["id"])
-    this.serchTodos(URI)
+    let request  = GET(URI)
+    request.then( d => this.setState({ data : d }) )
   }
 
   render(){
@@ -32,21 +33,6 @@ export default class TodoController extends React.Component{
         <View items={this.state.data}/>
       </div>
     )
-  }
-
-  serchTodos(uri){
-    fetch(
-      uri,
-      { method: 'GET' }
-    ).then( res=> {
-      return res.json()
-    }).then( d =>{
-      this.setState({data: d})
-    }).catch( e => {
-      console.log("todo_listのajax処理に失敗しました")
-      console.log(e)
-    })
-
   }
 }
 

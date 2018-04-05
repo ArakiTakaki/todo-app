@@ -1,5 +1,5 @@
 import React from 'react'
-
+import {POST} from './util/ajax'
 
 const error_log = (e) =>{
   console.log('todo-create:POST error')
@@ -12,45 +12,31 @@ export default class TodoCreate extends React.Component{
 
   constructor(props){
     super(props)
-    this.textParam = this.textParam.bind(this)
-    this.post = this.post.bind(this)
-  }
-
-  post(url,postParams){
-    const obj = postParams
-    const method = "POST"
-    //ここ解読してちゃんと理解する。
-    const body = Object.keys(obj).map((key)=>key+"="+encodeURIComponent(obj[key])).join("&");
-    const headers = {
-      'Accept': 'application/json',
-      'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'
+    this.reqest = this.reqest.bind(this)
+    this.state = {
+      review: true
     }
-    console.log(body)
-    console.log(url, {method, headers, body})
-    
-    fetch(url, {method, headers, body})
-      .then((res)=> res.json())
-      .then(console.log)
-      .catch(e => {
-        console.log("POST")
-      })
+
   }
 
   render(){ 
     return(
       <section>
-        <button onClick={this.textParam}>[+]</button>
+        <button onClick={this.request}>[+]</button>
         <input type="text" name="todo_content" ref="todo" />
       </section>
       )
   }
 
-  textParam(e){
+  reqest(){
     const url = '/api/todo/'+  this.props.sheet_id + '/create'
     const post = {
       data  : this.refs.todo.value
     }
-    this.post(url,post)
+    POST(url,post)
+    POST.then(data => console.log(data))
+    
+    const state  = !this.state.review
+    this.setState({review: state})
   }
-
 }
