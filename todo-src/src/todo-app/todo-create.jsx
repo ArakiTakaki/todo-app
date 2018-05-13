@@ -13,10 +13,6 @@ export default class TodoCreate extends React.Component{
   constructor(props){
     super(props)
     this.reqest = this.reqest.bind(this)
-    this.state = {
-      review: true
-    }
-
   }
 
   render(){ 
@@ -29,13 +25,10 @@ export default class TodoCreate extends React.Component{
   }
 
   reqest(e){
-    const url = '/api/todo/'+  this.props.sheet_id + '/create'
-    const post = {
+    let url = '/api/todo/'+  this.props.sheet_id + '/create'
+    let post = {
       "data"  : this.refs.todo.value
     }
-    res = POST(url,post)
-    res.then(data => console.log("POSTしたよ" + data))
-    // let state  = !this.state.review
-    // this.setState({review: state})
+    POST(url,post)
   }
 }

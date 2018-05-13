@@ -5,11 +5,12 @@ export function GET(url) {
 
 export function POST(url,postParams) {
   const method = "POST"
+  const obj = postParams
+  const body = Object.keys(obj).map((key)=>key+"="+encodeURIComponent(obj[key])).join("&");
   const headers = {
-    'Content-Type': 'application/json'
+    'Accept': 'application/json',
+    'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'
   }
-  const body = postParams
-  //body: "{"data":"test"}" これおかしい
   console.log(url, {method, headers, body})
   return fetch(url, {method, headers, body}).then(res => res.json())
 }

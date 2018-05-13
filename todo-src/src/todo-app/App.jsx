@@ -1,31 +1,32 @@
-import React from 'react';
-import {Route} from 'react-router-dom'
-import Sheets from './sheets-controller.jsx'
-import Todo from './todo-controller.jsx'
-
+import React from 'react'
+import Todo from './todo.jsx'
+import {GET,POST} from './util/ajax'
 
 export default class App extends React.Component{
+  constructor(props){
+    super(props)
+    this.state = {
+      todo_dat = [],
+      sheet_dat = []
+    }
+  }
 
-  // link の ajaxを入れる
+  // 初期設定
+  componenntWillMount(){
+    let json = GET("/api/todo/sheets")
+    json.then( data => this.setState({sheet_dat: data}))
+  }
 
   render() {
     return (
-      <div>
-        <nav>
-          <Sheets />
-        </nav>
-        <section>
-          <Route exact path="/" component={Home} />
-          <Route path="/:id" component={Todo} />
-        </section>
-      </div>
+      <Todo
+        sheet_meta={this.state.sheet_dat}
+        todo_meta={this.state.todo_dat}
+      />
     )
   }
 }
 
-const Home = () => (
-  <h1>HOME</h1>
-)
 
 //<Route path="/sheet/:id" component={Sheets} />  
 
